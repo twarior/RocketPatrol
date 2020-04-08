@@ -3,7 +3,7 @@ class Play extends Phaser.Scene {
         super("playScene");
     }
 
-    load() {
+    preload() {
         //load images and teh tile sprite
         this.load.image('rocket', './assets/rocket.png');
         this.load.image('spaceship', './assets/spaceship.png');
@@ -15,10 +15,10 @@ class Play extends Phaser.Scene {
         this.starfield = this.add.tileSprite(0, 0, 640, 480, 'starfield').setOrigin(0, 0);
 
         //white rectangle boarders
-        this.add.rectangle(5, 5, 630, 32, 0xFFFFFF).setOrigin(0, 0);
-        this.add.rectangle(5, 443, 630, 32, 0xFFFFFF).setOrigin(0, 0);
-        this.add.rectangle(5, 5, 32, 455, 0xFFFFFF).setOrigin(0, 0);
-        this.add.rectangle(603, 5, 32, 455, 0xFFFFFF).setOrigin(0, 0);
+        this.add.rectangle(5, 5, 630, 32, 0xAA00AA).setOrigin(0, 0);
+        this.add.rectangle(5, 443, 630, 32, 0xAA00AA).setOrigin(0, 0);
+        this.add.rectangle(5, 5, 32, 455, 0xAA00AA).setOrigin(0, 0);
+        this.add.rectangle(603, 5, 32, 455, 0xAA00AA).setOrigin(0, 0);
 
         //green UI background
         this.add.rectangle(37, 42, 566, 64, 0x00FF00).setOrigin(0,0);
