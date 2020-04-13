@@ -46,6 +46,9 @@ class Play extends Phaser.Scene {
         this.ship01.update();
         this.ship02.update();
         this.ship03.update();
+        if(this.checkCollision == true){
+            console.log("Ladies and Gentlemen... We got em.")
+        }
     }
 
     checkCollision(rocket, ship) {
