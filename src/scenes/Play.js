@@ -30,13 +30,13 @@ class Play extends Phaser.Scene {
         this.p1Rocket = new Rocket(this, game.config.width/2, 431, 'rocket').setScale(.8, .8).setOrigin(0,0);
 
         //spaceship (x3)
-        this.ship01 = new Spaceship(this, game.config.width + 192, 132, 'spaceship', 0, 30).setOrigin(0,0);
-        this.ship02 = new Spaceship(this, game.config.width + 96, 196, 'spaceship', 0, 20).setOrigin(0,0);
-        this.ship03 = new Spaceship(this, game.config.width, 260, 'spaceship', 0, 10).setOrigin(0,0);
+        this.ship01 = new Spaceship(this, game.config.width + 192, 132, 'spaceship', 0, 30, game.settings.spaceshipSpeed).setOrigin(0,0);
+        this.ship02 = new Spaceship(this, game.config.width + 96, 196, 'spaceship', 0, 20, game.settings.spaceshipSpeed).setOrigin(0,0);
+        this.ship03 = new Spaceship(this, game.config.width, 260, 'spaceship', 0, 10, game.settings.spaceshipSpeed).setOrigin(0,0);
         
         //altSpaceship 
-        //this.altSpaceship = new AltSpaceship(this, game.config.width, 233, 'altSpaceship', 0, 50).setOrigin(0,0);
-
+        this.altSpaceship = new Spaceship(this, game.config.width, 233, 'altSpaceship', 0, 50, game.settings.altSpaceshipSpeed).setOrigin(0,0);
+        //this.altSpaceship.spaceshipSpeed = game.settings.altSpaceshipSpeed;
         //define keyboard keys
         keyF = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F);
         keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
@@ -80,11 +80,14 @@ class Play extends Phaser.Scene {
             },
             fixedWidth: 100
         }
-        let timeRemaining = game.settings.gameTimer/1000;
-        this.timeLeft = this.add.text(219, 54, timeRemaining, timeConfig);
-        //for(let i = 0; i < game.settings.gameTimer/1000; i++){
+        this.timeRemaining = game.settings.gameTimer/1000;
+        console.log(this.timeRemaining)
+        this.timeLeft = this.add.text(219, 54, this.timeRemaining, timeConfig);
 
-        //}
+        for(let i = 1000; i < game.settings.gameTimer + 1000; i+=1000){
+            this.clock = this.time.delayedCall(i, () => {this.timeRemaining -= 1}, null, this);
+            console.log(this.timeRemaining);   
+        }
 
 
         // game over flag
@@ -101,12 +104,18 @@ class Play extends Phaser.Scene {
         //at half time, increase the speed of the rockets
         if(game.settings.gameDifficulty == 'Easy'){
             this.clock = this.time.delayedCall(game.settings.gameTimer/2, () => {
-            game.settings.spaceshipSpeed += 2;}, null, this);
+            this.ship01.speed += 2;
+            this.ship02.speed += 2;
+            this.ship03.speed += 2;
+            this.altSpaceship.speed += 2;}, null, this);
             console.log("eas")
         }
         if(game.settings.gameDifficulty == 'Hard'){
             this.clock = this.time.delayedCall(game.settings.gameTimer/2, () => {
-            game.settings.spaceshipSpeed += 3;}, null, this)
+            this.ship01.speed += 3;
+            this.ship02.speed += 3;
+            this.ship03.speed += 3;
+            this.altSpaceship.speed += 3;}, null, this)
             console.log("hgard");
         }
     }
@@ -124,6 +133,7 @@ class Play extends Phaser.Scene {
             this.ship01.update();           // update spaceships (x3)
             this.ship02.update();
             this.ship03.update();
+            this.altSpaceship.update();
         } 
         // check collisions
         if(this.checkCollision(this.p1Rocket, this.ship03)) {
@@ -138,13 +148,14 @@ class Play extends Phaser.Scene {
             this.p1Rocket.reset();
             this.shipExplode(this.ship01);
         }
+        if (this.checkCollision(this.p1Rocket, this.altSpaceship)) {
+            this.p1Rocket.reset();
+            this.shipExplode(this.altSpaceship);
+        }
         if (this.gameOver && Phaser.Input.Keyboard.JustDown(keyLEFT)) {
             this.scene.start("menuScene");
-        }
-        this.time.delayedCall(1000, () => {this.timeRemaining -= 1}, null, this);
-        this.timeLeft.text = this.timeRemaining;
-        //console.log(this.timeRemaining);
-        
+        }   
+        this.timeLeft.text = this.timeRemaining;     
     }
 
     checkCollision(rocket, ship) {
