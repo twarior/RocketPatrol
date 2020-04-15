@@ -8,7 +8,7 @@ class Play extends Phaser.Scene {
         this.load.image('rocket', './assets/rocket.png');
         this.load.image('spaceship', './assets/spaceship.png');
         this.load.image('starfield', './assets/starfield.png');
-        this.load.image('altSpaceship', '.assets/altSpaceship.png');
+        this.load.image('altSpaceship', './assets/altSpaceship.png');
         this.load.spritesheet('explosion', './assets/explosion.png', {frameWidth: 64, frameHeight: 32, startFrame: 0, endFrame: 9});
     }
 
@@ -27,7 +27,7 @@ class Play extends Phaser.Scene {
 
         //add rocket (p1)
         //constructor(scene, x, y ,texture, frame) [what we need here]
-        this.p1Rocket = new Rocket(this, game.config.width/2, 431, 'rocket').setScale(.5, .5).setOrigin(0,0);
+        this.p1Rocket = new Rocket(this, game.config.width/2, 431, 'rocket').setScale(.8, .8).setOrigin(0,0);
 
         //spaceship (x3)
         this.ship01 = new Spaceship(this, game.config.width + 192, 132, 'spaceship', 0, 30).setOrigin(0,0);
