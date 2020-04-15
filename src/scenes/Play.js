@@ -8,6 +8,7 @@ class Play extends Phaser.Scene {
         this.load.image('rocket', './assets/rocket.png');
         this.load.image('spaceship', './assets/spaceship.png');
         this.load.image('starfield', './assets/starfield.png');
+        this.load.image('asteroidField', './assets/asteroidField.png');
         this.load.image('altSpaceship', './assets/altSpaceship.png');
         this.load.spritesheet('explosion', './assets/explosion.png', {frameWidth: 64, frameHeight: 32, startFrame: 0, endFrame: 9});
     }
@@ -15,6 +16,7 @@ class Play extends Phaser.Scene {
     create() {
         //place tile sprite
         this.starfield = this.add.tileSprite(0, 0, 640, 480, 'starfield').setOrigin(0, 0);
+        this.asteroidField = this.add.tileSprite(0, 150, 640, 480, 'asteroidField').setOrigin(0, 0);
 
         //white rectangle boarders
         this.add.rectangle(5, 5, 630, 32, 0xAA00AA).setOrigin(0, 0);
@@ -126,7 +128,8 @@ class Play extends Phaser.Scene {
             this.scene.restart(this.p1Score);
         }
         //scroll starfield
-        this.starfield.tilePositionX -= 4;
+        this.starfield.tilePositionX -= 1;
+        this.asteroidField.tilePositionX -=2;
         
         if (!this.gameOver) {               
             this.p1Rocket.update();         // update rocket sprite
