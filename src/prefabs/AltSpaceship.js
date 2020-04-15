@@ -1,5 +1,5 @@
-//rocket prefab
-class Spaceship extends Phaser.GameObjects.Sprite {
+//alt spaceship
+class AltSpaceship extends Phaser.GameObjects.Sprite {
     constructor(scene, x, y ,texture, frame, pointValue) {
         super(scene, x, y, texture, frame);
 
@@ -11,7 +11,7 @@ class Spaceship extends Phaser.GameObjects.Sprite {
 
     update() {
         //move spaceship left
-        this.x -= game.settings.spaceshipSpeed;
+        this.x -= game.settings.altSpaceshipSpeed;
         //wrap around screen bounds
         if(this.x <= 0 - this.width){
             this.reset();
